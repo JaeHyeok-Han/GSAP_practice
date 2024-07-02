@@ -7,16 +7,21 @@ import { useEffect, useRef } from "react";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const Frame = styled.div`
+  position: relative;
   width: 100%;
   height: 100vh;
   border: 1px solid black;
-  margin: 100vh 0;
+  overflow: hidden;
 
   & .cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: none;
     width: 120px;
     height: 120px;
     background-color: red;
+    pointer-events: none;
   }
 `;
 
@@ -38,13 +43,23 @@ const CursorSection = () => {
     const mouseLeaveEvent = () => {
       cursor.style.display = "none";
     };
+    const mouseMoveEvent = (e: MouseEvent) => {
+      const { x, y } = frame.getBoundingClientRect();
+      const { clientX, clientY } = e;
+
+      cursor.style.transform = `translate(calc(${clientX - x}px - 50%), calc(${
+        clientY - y
+      }px - 50%))`;
+    };
 
     frame.addEventListener("mouseenter", mouseEnterEvent);
     frame.addEventListener("mouseleave", mouseLeaveEvent);
+    frame.addEventListener("mousemove", mouseMoveEvent);
 
     return () => {
       frame.removeEventListener("mouseenter", mouseEnterEvent);
       frame.removeEventListener("mouseleave", mouseLeaveEvent);
+      frame.removeEventListener("mousemove", mouseMoveEvent);
     };
   }, []);
 
