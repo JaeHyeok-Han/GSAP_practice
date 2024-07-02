@@ -6,7 +6,7 @@ import CursorSection from "./cursorSection";
 const Frame = styled.div`
   & .spacing {
     width: 100%;
-    height: 100vh;
+    height: 110vh;
   }
 `;
 
@@ -15,6 +15,7 @@ const Mouse = () => {
     <Frame>
       <div className="spacing" />
       <CursorSection />
+      <div className="spacing" />
     </Frame>
   );
 };
